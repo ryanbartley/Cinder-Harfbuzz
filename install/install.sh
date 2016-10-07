@@ -81,39 +81,39 @@ buildIOS()
   export IOS_SDK="${IOS_PLATFORM_DEVELOPER}/SDKs/${LATEST_SDK}"
   HOST="arm-apple-darwin"
   
-  export CXX="${XCODE_DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++"
-  export CC="${XCODE_DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+  export CXX=`xcrun -find -sdk iphoneos clang++`
+  export CC=`xcrun -find -sdk iphoneos clang`
   export CPPFLAGS="-isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64 -mios-version-min=8.0"
   export CXXFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64  -mios-version-min=8.0"
-  export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch arm64 -mios-version-min=8.0"
+  export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -framework CoreText -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch arm64 -mios-version-min=8.0"
   echo 'IOS_SDK =' ${IOS_SDK}
 
 #  buildZlib
 
-  buildLibffi $HOST
-  buildGettext $HOST
+ # buildLibffi $HOST
+#  buildGettext $HOST
   
-  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
-  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
-  export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
-  export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
+#  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
+#  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
+  #export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
+  #export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
   export ZLIB_LIBS="--L${IOS_SDK}/usr/lib -lz"
   export ZLIB_CFLAGS="-I${IOS_SDK}/usr/include"
-  export LIBFFI_LIBS="-L${PREFIX_LIBFFI}/lib -lffi"
-  export LIBFFI_CFLAGS="-I${PREFIX_LIBFFI}/lib/libffi-3.2.1/include/"
+#  export LIBFFI_LIBS="-L${PREFIX_LIBFFI}/lib -lffi"
+#  export LIBFFI_CFLAGS="-I${PREFIX_LIBFFI}/lib/libffi-3.2.1/include/"
 
-  buildGlib $HOST
+# buildGlib $HOST
 
   export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
   export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}"
-  export GLIB_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-  export GLIB_LIBS="-L${PREFIX_GLIB}/lib -lglib-2.0"
-  export GOBJECT_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-  export GOBJECT_LIBS="-L${PREFIX_GLIB}/lib -lgobject-2.0"
+#  export GLIB_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
+#  export GLIB_LIBS="-L${PREFIX_GLIB}/lib -lglib-2.0"
+#  export GOBJECT_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
+#  export GOBJECT_LIBS="-L${PREFIX_GLIB}/lib -lgobject-2.0"
   export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
   export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
 
-  buildHarfbuzz $HOST
+  buildHarfbuzz $HOST "--with-coretext=yes"
 }
 
 buildOSX() 
@@ -125,7 +125,7 @@ buildOSX()
   buildGettext
   
   export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
-  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
+  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreText -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
   export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
   export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
   export ZLIB_LIBS="-L${PREFIX_LIBZ}/lib -lz"
@@ -144,7 +144,7 @@ buildOSX()
   export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
   export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
 
-  buildHarfbuzz
+  buildHarfbuzz "" "--with-coretext=yes"
 }
 
 buildLinux() 
@@ -195,10 +195,17 @@ downloadZlib()
 downloadLibffi()
 {
 	echo Downloading libffi...
-  curl ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz -o libffi.tar.gz
-  tar -xf libffi.tar.gz
-  mv libffi-* libffi
-  rm libffi.tar.gz
+  if [ "${lower_case}" = "ios" ]; then 
+    curl ftp://sourceware.org/pub/libffi/libffi-3.2.tar.gz -o libffi.tar.gz
+    tar -xf libffi.tar.gz
+    mv libffi-* libffi
+    rm libffi.tar.gz 
+  else 
+    curl ftp://sourceware.org/pub/libffi/libffi-3.2.1.tar.gz -o libffi.tar.gz
+    tar -xf libffi.tar.gz
+    mv libffi-* libffi
+    rm libffi.tar.gz
+  fi
   echo Finished Downloading libffi...
 }
 
@@ -254,7 +261,7 @@ buildLibffi()
   if [ -z "$HOST" ]; then
     ./configure --prefix=${PREFIX}
   else
-    python ./generate-darwin-source-and-headers.py
+    #python ./generate-darwin-source-and-headers.py
     ./configure --prefix=${PREFIX} --host=${HOST}
   fi
 
@@ -292,10 +299,10 @@ buildGlib()
   HOST=$1
   echo "Passed in $HOST"
   if [ -z "$HOST" ]; then
-    ./configure --disable-shared --prefix=${PREFIX} --disable-gtk-html --disable-installed-tests --disable-always-build-tests
+    ./configure --disable-shared --prefix=${PREFIX} --disable-gtk-doc-html --disable-installed-tests --disable-always-build-tests
   else
     echo Building with cross-compile
-    ./configure --host=${HOST} --disable-shared --prefix=${PREFIX} --disable-gtk-html --disable-installed-tests --disable-always-build-tests
+    ./configure --host=${HOST} --disable-shared --prefix=${PREFIX} --disable-gtk-doc-html --disable-installed-tests --disable-always-build-tests
   fi
 
   make -j 6
@@ -314,14 +321,14 @@ buildHarfbuzz()
   echo "Building harfbuzz, and installing $1"
   PREFIX=$PREFIX_HARFBUZZ
   HOST=$1
+  OPTIONS=$2
   echo "Passed in $HOST"
 
-#./configure --enable-static=yes --enable-shared=no --enable-gtk-doc-html=no --with-cairo=yes --with-fontconfig=yes --with-freetype=yes 
   if [ -z "$HOST" ]; then
-    ./configure --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-gobject=yes --with-cairo=yes --with-fontconfig=yes --with-freetype=yes
+    ./configure --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-gobject=yes --with-cairo=yes --with-fontconfig=yes --with-freetype=yes ${OPTIONS}
   else
-    echo Building with cross-compile
-    ./configure --host=${HOST} --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-htm=no --with-gobject=yes --with-cairo=yes --with-fontconfig=yes --with-freetype=yes 
+    echo Building with cross-compile    
+    ./configure --host=${HOST} --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-cairo=yes --with-fontconfig=yes --with-freetype=yes ${OPTIONS} 
   fi
 
   make -j 6
