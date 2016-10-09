@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rm -rf tmp
-mkdir tmp
 
 lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
  
@@ -9,10 +7,6 @@ if [ -z $1 ]; then
 	echo Need to provide platform. Possible platforms are linux, macosx, ios. Exiting!
 	exit 
 fi 
-
-CINDER_DIR=`pwd`/../../../
-CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
-CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/freetype
 
 #########################
 ## create prefix dirs
@@ -50,6 +44,14 @@ CAIRO_INCLUDE_PATH="${CAIRO_BASE_DIR}/include/${lower_case}/cairo"
 # make sure it's the correct version
 echo "Setting up cairo flags..."
 
+#############################
+## cinder paths for freetype
+#############################
+
+CINDER_DIR=`pwd`/../../../
+CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
+CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/freetype
+
 #########################
 ## create final path
 #########################
@@ -63,9 +65,6 @@ FINAL_INCLUDE_PATH=${FINAL_PATH}/include/${lower_case}
 rm -rf ${FINAL_INCLUDE_PATH}
 mkdir -p ${FINAL_INCLUDE_PATH}
 
-cd tmp
-
-
 #########################
 ## different archs
 #########################
@@ -73,46 +72,11 @@ cd tmp
 buildIOS() 
 {
   echo Building IOS...
-  ARCH="arm64"
-  export XCODE_DEVELOPER=`xcode-select --print-path` 
-  export IOS_PLATFORM="iPhoneOS"
-  export IOS_PLATFORM_DEVELOPER="${XCODE_DEVELOPER}/Platforms/${IOS_PLATFORM}.platform/Developer"
-  LATEST_SDK=`ls ${IOS_PLATFORM_DEVELOPER}/SDKs | sort -r | head -n1`
-  export IOS_SDK="${IOS_PLATFORM_DEVELOPER}/SDKs/${LATEST_SDK}"
-  HOST="arm-apple-darwin"
-  
-  export CXX=`xcrun -find -sdk iphoneos clang++`
-  export CC=`xcrun -find -sdk iphoneos clang`
-  export CPPFLAGS="-isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64 -mios-version-min=8.0"
-  export CXXFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64  -mios-version-min=8.0"
-  export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -framework CoreText -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch arm64 -mios-version-min=8.0"
-  echo 'IOS_SDK =' ${IOS_SDK}
 
-#  buildZlib
-
- # buildLibffi $HOST
-#  buildGettext $HOST
-  
-#  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
-#  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
-  #export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
-  #export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
-  export ZLIB_LIBS="--L${IOS_SDK}/usr/lib -lz"
-  export ZLIB_CFLAGS="-I${IOS_SDK}/usr/include"
-#  export LIBFFI_LIBS="-L${PREFIX_LIBFFI}/lib -lffi"
-#  export LIBFFI_CFLAGS="-I${PREFIX_LIBFFI}/lib/libffi-3.2.1/include/"
-
+# buildZlib
+# buildLibffi $HOST
+# buildGettext $HOST
 # buildGlib $HOST
-
-  export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
-  export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}"
-#  export GLIB_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-#  export GLIB_LIBS="-L${PREFIX_GLIB}/lib -lglib-2.0"
-#  export GOBJECT_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-#  export GOBJECT_LIBS="-L${PREFIX_GLIB}/lib -lgobject-2.0"
-  export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
-  export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
-
   buildHarfbuzz $HOST "--with-coretext=yes"
 }
 
@@ -123,58 +87,20 @@ buildOSX()
   buildZlib
   buildLibffi
   buildGettext
-  
-  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
-  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreText -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
-  export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
-  export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
-  export ZLIB_LIBS="-L${PREFIX_LIBZ}/lib -lz"
-  export ZLIB_CFLAGS="-I${PREFIX_LIBZ}/include"
-  export LIBFFI_LIBS="-L${PREFIX_LIBFFI}/lib -lffi"
-  export LIBFFI_CFLAGS="-I${PREFIX_LIBFFI}/lib/libffi-3.2.1/include/"
-
+	export LDFLAGS="${LDFLAGS} -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf"
   buildGlib 
-
-  export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
-  export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}"
-  export GLIB_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-  export GLIB_LIBS="-L${PREFIX_GLIB}/lib -lglib-2.0"
-  export GOBJECT_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-  export GOBJECT_LIBS="-L${PREFIX_GLIB}/lib -lgobject-2.0"
-  export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
-  export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
-
   buildHarfbuzz "" "--with-coretext=yes"
 }
 
 buildLinux() 
 {
-  echo Building OSX...
+  echo Building Linux...
 
   buildZlib
   buildLibffi
   buildGettext
-  
-  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
-  export LDFLAGS="${LDFLAGS} -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
-  export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
-  export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
-  export ZLIB_LIBS="-L${PREFIX_LIBZ}/lib -lz"
-  export ZLIB_CFLAGS="-I${PREFIX_LIBZ}/include"
-  export LIBFFI_LIBS="-L${PREFIX_LIBFFI}/lib -lffi"
-  export LIBFFI_CFLAGS="-I${PREFIX_LIBFFI}/lib/libffi-3.2.1/include/"
-
+	export LDFLAGS="${LDFLAGS} -L${PREFIX_GETTEXT}/lib -lgettextpo -lasprintf"
   buildGlib 
-
-  export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
-  export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}"
-  export GLIB_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-  export GLIB_LIBS="-L${PREFIX_GLIB}/lib -lglib-2.0"
-  export GOBJECT_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
-  export GOBJECT_LIBS="-L${PREFIX_GLIB}/lib -lgobject-2.0"
-  export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
-  export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
-
   buildHarfbuzz
 }
 
@@ -240,7 +166,7 @@ downloadHarfbuzz()
 buildZlib()
 {
   cd zlib
-  echo "Building and installing zlib"
+  echo "Building and installing zlib, ${PREFIX_LIBZ}"
   PREFIX=${PREFIX_LIBZ}
  
   ./configure --prefix=${PREFIX}
@@ -341,6 +267,10 @@ buildHarfbuzz()
   cd ..
 }
 
+rm -rf tmp
+mkdir tmp
+cd tmp
+
 downloadZlib
 downloadLibffi
 downloadGettext
@@ -350,16 +280,83 @@ downloadHarfbuzz
 declare -a config_settings=("debug" "release")
 declare -a config_paths=("/Debug" "/Release")
 
+export ZLIB_LIBS="-L${PREFIX_LIBZ}/lib -lz"
+export ZLIB_CFLAGS="-I${PREFIX_LIBZ}/include"
+export LIBFFI_LIBS="-L${PREFIX_LIBFFI}/lib -lffi"
+export LIBFFI_CFLAGS="-I${PREFIX_LIBFFI}/lib/libffi-3.2.1/include/"
+export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
+export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}"
+export GLIB_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
+export GLIB_LIBS="-L${PREFIX_GLIB}/lib -lglib-2.0"
+export GOBJECT_CFLAGS="-I${PREFIX_GLIB}/include/glib-2.0 -I${PREFIX_GLIB}/lib/glib-2.0/include"
+export GOBJECT_LIBS="-L${PREFIX_GLIB}/lib -lgobject-2.0"
+export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
+export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
+
 echo "Building harfbuzz for {$lower_case}"
 if [ "${lower_case}" = "mac" ] || [ "${lower_case}" = "macosx" ];
 then
-  buildOSX
+  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
+  
+	export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"	
+	export CXX="$(xcrun -find -sdk macosx clang++) -Wno-enum-conversion"
+	export CC="$(xcrun -find -sdk macosx clang) -Wno-enum-conversion"
+	export CFLAGS="-O3 -pthread $ -I${PREFIX_GETTEXT}/include {CFLAGS}"
+	export CXXFLAGS="-O3 -pthread ${CXXFLAGS}"
+	export LDFLAGS="-stdlib=libc++ -framework AppKit -framework CoreText -framework CoreFoundation -framework CoreGraphics  -framework Carbon -L/usr/local/lib ${LDFLAGS}"
+	
+	echo Environment for Mac OSX...
+	echo \t PATH: 		${PATH}
+	echo \t CXX:      ${CXX}
+	echo \t CC:       ${CC}
+	echo \t CFLAGS:   ${CFLAGS}
+	echo \t CPPFLAGS: ${CPPFLAGS}
+	echo \t CXXFLAGS: ${CXXFLAGS}
+	echo \t LDFLAGS:  ${LDFLAGS}
+
+	buildOSX
 elif [ "${lower_case}" = "linux" ];
 then
-  buildLinux
+  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
+	
+	export CXX="/usr/bin/clang++ -Wno-enum-conversion"
+	export CC="/usr/bin/clang -Wno-enum-conversion"
+	export CFLAGS="-O3 -pthread -I${PREFIX_GETTEXT}/include ${CFLAGS}"
+  export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
+	export CXXFLAGS="-O3 -pthread ${CXXFLAGS}"
+  
+	echo Environment for Linux...
+	echo \t PATH:     ${PATH}
+	echo \t CXX:      ${CXX}
+	echo \t CC:       ${CC}
+	echo \t CFLAGS:   ${CFLAGS}
+	echo \t CPPFLAGS: ${CPPFLAGS}
+	echo \t CXXFLAGS: ${CXXFLAGS}
+	echo \t LDFLAGS:  ${LDFLAGS}
+
+	buildLinux
 elif [ "${lower_case}" = "ios" ];
 then
-  buildIOS
+
+  ARCH="arm64"
+  export XCODE_DEVELOPER=`xcode-select --print-path` 
+  export IOS_PLATFORM="iPhoneOS"
+  export IOS_PLATFORM_DEVELOPER="${XCODE_DEVELOPER}/Platforms/${IOS_PLATFORM}.platform/Developer"
+  LATEST_SDK=`ls ${IOS_PLATFORM_DEVELOPER}/SDKs | sort -r | head -n1`
+  export IOS_SDK="${IOS_PLATFORM_DEVELOPER}/SDKs/${LATEST_SDK}"
+  HOST="arm-apple-darwin"
+  
+  export CXX=`xcrun -find -sdk iphoneos clang++`
+  export CC=`xcrun -find -sdk iphoneos clang`
+  export CPPFLAGS="-isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64 -mios-version-min=8.0"
+  export CXXFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64  -mios-version-min=8.0"
+  export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -framework CoreText -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch arm64 -mios-version-min=8.0"
+  echo 'IOS_SDK =' ${IOS_SDK}
+#  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
+#  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
+  #export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
+  #export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
+	buildIOS
 else
   echo "Unkown selection: ${1}"
   echo "usage: ./install.sh [platform]"
