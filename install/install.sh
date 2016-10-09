@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 lower_case=$(echo "$1" | tr '[:upper:]' '[:lower:]')
  
 if [ -z $1 ]; then 
@@ -73,7 +72,6 @@ buildIOS()
 {
   echo Building IOS...
 
-# buildZlib
 # buildLibffi $HOST
 # buildGettext $HOST
 # buildGlib $HOST
@@ -267,15 +265,15 @@ buildHarfbuzz()
   cd ..
 }
 
-rm -rf tmp
-mkdir tmp
+#rm -rf tmp
+#mkdir tmp
 cd tmp
 
-downloadZlib
-downloadLibffi
-downloadGettext
-downloadGlib
-downloadHarfbuzz
+#downloadZlib
+#downloadLibffi
+#downloadGettext
+#downloadGlib
+#downloadHarfbuzz
 
 declare -a config_settings=("debug" "release")
 declare -a config_paths=("/Debug" "/Release")
@@ -301,7 +299,7 @@ then
 	export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"	
 	export CXX="$(xcrun -find -sdk macosx clang++) -Wno-enum-conversion"
 	export CC="$(xcrun -find -sdk macosx clang) -Wno-enum-conversion"
-	export CFLAGS="-O3 -pthread $ -I${PREFIX_GETTEXT}/include {CFLAGS}"
+	export CFLAGS="-O3 -pthread -I${PREFIX_GETTEXT}/include ${CFLAGS}"
 	export CXXFLAGS="-O3 -pthread ${CXXFLAGS}"
 	export LDFLAGS="-stdlib=libc++ -framework AppKit -framework CoreText -framework CoreFoundation -framework CoreGraphics  -framework Carbon -L/usr/local/lib ${LDFLAGS}"
 	
