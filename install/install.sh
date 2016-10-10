@@ -15,23 +15,23 @@ PREFIX_BASE_DIR=`pwd`/tmp
 
 PREFIX_LIBZ=${PREFIX_BASE_DIR}/libz_install
 rm -rf ${PREFIX_LIBZ}
-mkdir ${PREFIX_LIBZ}
+mkdir -p ${PREFIX_LIBZ}
 
 PREFIX_LIBFFI=${PREFIX_BASE_DIR}/libffi_install
 rm -rf ${PREFIX_LIBFFI}
-mkdir ${PREFIX_LIBFFI}
+mkdir -p ${PREFIX_LIBFFI}
 
 PREFIX_GETTEXT=${PREFIX_BASE_DIR}/gettext_install
 rm -rf ${PREFIX_GETTEXT}
-mkdir ${PREFIX_GETTEXT}
+mkdir -p ${PREFIX_GETTEXT}
 
 PREFIX_GLIB=${PREFIX_BASE_DIR}/glib_install
 rm -rf ${PREFIX_GLIB}
-mkdir ${PREFIX_GLIB}
+mkdir -p ${PREFIX_GLIB}
 
 PREFIX_HARFBUZZ=${PREFIX_BASE_DIR}/harfbuzz_install
 rm -rf ${PREFIX_HARFBUZZ}
-mkdir ${PREFIX_HARFBUZZ}
+mkdir -p ${PREFIX_HARFBUZZ}
 
 #########################
 ## gather cairo libs
@@ -47,7 +47,7 @@ echo "Setting up cairo flags..."
 ## cinder paths for freetype
 #############################
 
-CINDER_DIR=`pwd`/../../../
+CINDER_DIR=`pwd`/../../..
 CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
 CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/freetype
 
@@ -71,11 +71,11 @@ mkdir -p ${FINAL_INCLUDE_PATH}
 buildIOS() 
 {
   echo Building IOS...
-
+# Can't figure out the build path for these
 # buildLibffi $HOST
 # buildGettext $HOST
 # buildGlib $HOST
-  buildHarfbuzz $HOST "--with-coretext=yes"
+  buildHarfbuzz "${HOST}" "--with-coretext=yes --with-glib=no --with-gobject=no"
 }
 
 buildOSX() 
@@ -158,7 +158,15 @@ downloadHarfbuzz()
 	curl -o harfbuzz.tar.bz2 https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.3.2.tar.bz2
 	tar xf harfbuzz.tar.bz2 
 	mv harfbuzz-* harfbuzz
-	echo Finished downloading Harfbuzz...
+  if [ "${lower_case}" = "ios" ]; then
+    echo In the harfbuzz change...
+    if [ ! -f harfbuzz/configure.ac ]; then 
+      echo "FILE DOESN'T EXIST" 
+    fi
+    sed -i -e 's=ApplicationServices/ApplicationServices.h=CoreText/CoreText.h=' harfbuzz/configure
+    sed -i -e 's=-framework ApplicationServices=-framework CoreText -framework CoreGraphics=' harfbuzz/configure
+  fi
+  echo Finished downloading Harfbuzz...
 }
 
 buildZlib()
@@ -265,15 +273,15 @@ buildHarfbuzz()
   cd ..
 }
 
-#rm -rf tmp
-#mkdir tmp
+rm -rf tmp
+mkdir tmp
 cd tmp
 
-#downloadZlib
-#downloadLibffi
-#downloadGettext
-#downloadGlib
-#downloadHarfbuzz
+downloadZlib
+downloadLibffi
+downloadGettext
+downloadGlib
+downloadHarfbuzz
 
 declare -a config_settings=("debug" "release")
 declare -a config_paths=("/Debug" "/Release")
@@ -304,13 +312,13 @@ then
 	export LDFLAGS="-stdlib=libc++ -framework AppKit -framework CoreText -framework CoreFoundation -framework CoreGraphics  -framework Carbon -L/usr/local/lib ${LDFLAGS}"
 	
 	echo Environment for Mac OSX...
-	echo \t PATH: 		${PATH}
-	echo \t CXX:      ${CXX}
-	echo \t CC:       ${CC}
-	echo \t CFLAGS:   ${CFLAGS}
-	echo \t CPPFLAGS: ${CPPFLAGS}
-	echo \t CXXFLAGS: ${CXXFLAGS}
-	echo \t LDFLAGS:  ${LDFLAGS}
+	echo -e "\t PATH: 		${PATH}"
+	echo -e "\t CXX:      ${CXX}"
+	echo -e "\t CC:       ${CC}"
+	echo -e "\t CFLAGS:   ${CFLAGS}"
+	echo -e "\t CPPFLAGS: ${CPPFLAGS}"
+	echo -e "\t CXXFLAGS: ${CXXFLAGS}"
+	echo -e "\t LDFLAGS:  ${LDFLAGS}"
 
 	buildOSX
 elif [ "${lower_case}" = "linux" ];
@@ -324,37 +332,70 @@ then
 	export CXXFLAGS="-O3 -pthread ${CXXFLAGS}"
   
 	echo Environment for Linux...
-	echo \t PATH:     ${PATH}
-	echo \t CXX:      ${CXX}
-	echo \t CC:       ${CC}
-	echo \t CFLAGS:   ${CFLAGS}
-	echo \t CPPFLAGS: ${CPPFLAGS}
-	echo \t CXXFLAGS: ${CXXFLAGS}
-	echo \t LDFLAGS:  ${LDFLAGS}
+	echo -e "\t PATH:     ${PATH}"
+	echo -e "\t CXX:      ${CXX}"
+	echo -e "\t CC:       ${CC}"
+	echo -e "\t CFLAGS:   ${CFLAGS}"
+	echo -e "\t CPPFLAGS: ${CPPFLAGS}"
+	echo -e "\t CXXFLAGS: ${CXXFLAGS}"
+	echo -e "\t LDFLAGS:  ${LDFLAGS}"
 
 	buildLinux
 elif [ "${lower_case}" = "ios" ];
 then
 
-  ARCH="arm64"
-  export XCODE_DEVELOPER=`xcode-select --print-path` 
-  export IOS_PLATFORM="iPhoneOS"
-  export IOS_PLATFORM_DEVELOPER="${XCODE_DEVELOPER}/Platforms/${IOS_PLATFORM}.platform/Developer"
-  LATEST_SDK=`ls ${IOS_PLATFORM_DEVELOPER}/SDKs | sort -r | head -n1`
-  export IOS_SDK="${IOS_PLATFORM_DEVELOPER}/SDKs/${LATEST_SDK}"
-  HOST="arm-apple-darwin"
+  #ARCH="arm64"
+  #export XCODE_DEVELOPER=`xcode-select --print-path` 
+  #export IOS_PLATFORM="iPhoneOS"
+  #export IOS_PLATFORM_DEVELOPER="${XCODE_DEVELOPER}/Platforms/${IOS_PLATFORM}.platform/Developer"
+  #LATEST_SDK=`ls ${IOS_PLATFORM_DEVELOPER}/SDKs | sort -r | head -n1`
+  #export IOS_SDK="${IOS_PLATFORM_DEVELOPER}/SDKs/${LATEST_SDK}"
+  #HOST="arm-apple-darwin"
   
-  export CXX=`xcrun -find -sdk iphoneos clang++`
-  export CC=`xcrun -find -sdk iphoneos clang`
-  export CPPFLAGS="-isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64 -mios-version-min=8.0"
-  export CXXFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64  -mios-version-min=8.0"
-  export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -framework CoreText -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch arm64 -mios-version-min=8.0"
-  echo 'IOS_SDK =' ${IOS_SDK}
-#  export PATH="${PATH}:${PREFIX_GETTEXT}/bin"
-#  export LDFLAGS="${LDFLAGS} -framework AppKit -framework CoreFoundation -framework Carbon -L${PREFIX_GETTEXT}/lib -lintl -lgettextpo -lasprintf -L/usr/local/lib" 
-  #export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
-  #export CFLAGS="${CFLAGS} -I${PREFIX_GETTEXT}/include"
-	buildIOS
+  #export PATH="${PATH}:${IOS_SDK}/System/Library/Frameworks"
+  #export CXX=`xcrun -find -sdk iphoneos clang++`
+  #export CC=`xcrun -find -sdk iphoneos clang`
+	#export CFLAGS="-O3 -pthread ${CFLAGS}"
+  #export CPPFLAGS="-isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64 -mios-version-min=8.0"
+  #export CXXFLAGS="-O3 -pthread -stdlib=libc++ -isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch arm64  -mios-version-min=8.0"
+  #export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -L${IOS_SDK}/usr/lib -framework UIKit -framework CoreText -framework CoreFoundation -framework CoreGraphics -arch arm64 -mios-version-min=8.0"
+  #echo 'IOS_SDK =' ${IOS_SDK}
+	
+	#echo Environment for IOS...
+	#echo -e "\t PATH:     ${PATH}"
+	#echo -e "\t CXX:      ${CXX}"
+	#echo -e "\t CC:       ${CC}"
+	#echo -e "\t CFLAGS:   ${CFLAGS}"
+	#echo -e "\t CPPFLAGS: ${CPPFLAGS}"
+	#echo -e "\t CXXFLAGS: ${CXXFLAGS}"
+	#echo -e "\t LDFLAGS:  ${LDFLAGS}"
+  ARCH="arm64"
+  HOST="arm-apple-darwin"
+  export IOS_PLATFORM="iPhoneOS"
+  export IOS_PLATFORM_DEVELOPER="$(xcode-select --print-path)/Platforms/${IOS_PLATFORM}.platform/Developer"
+  export IOS_SDK="${IOS_PLATFORM_DEVELOPER}/SDKs/$(ls ${IOS_PLATFORM_DEVELOPER}/SDKs | sort -r | head -n1)"
+  echo $IOS_SDK
+  export XCODE_DEVELOPER=`xcode-select --print-path`
+  export CXX="$(xcrun -find -sdk iphoneos clang++) -Wno-enum-conversion"
+  export CC="$(xcrun -find -sdk iphoneos clang) -Wno-enum-conversion"
+  
+  export CPPFLAGS="-isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -arch ${ARCH} -mios-version-min=8.0"
+  export CFLAGS="-O3 -pthread ${CFLAGS}"
+  #export PIXMAN_CFLAGS_i386="${CFLAGS} -DPIXMAN_NO_TLS"
+  #export PIXMAN_CXXFLAGS_i386="${CXXFLAGS} -DPIXMAN_NO_TLS"
+  export CXXFLAGS="-O3 -pthread ${CXXFLAGS} -isysroot ${IOS_SDK} -I${IOS_SDK}/usr/include -I${INCLUDEDIR}/pixman-1 -arch ${ARCH} -mios-version-min=8.0"
+  
+  export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch ${ARCH} -mios-version-min=8.0 -framework CoreText -framework CoreFoundation -framework CoreGraphics  ${LDFLAGS}"
+  export PNG_LIBS="-L${IOS_SDK}/usr/lib ${PNG_LIBS}"
+  
+  echo Environment for iPhone...
+  echo \t ARCH:     ${ARCH}
+  echo \t CXX:      ${CXX}
+  echo \t CC:       ${CC}
+  echo \t CFLAGS:   ${CFLAGS}
+  echo \t CXXFLAGS: ${CXXFLAGS}
+  echo \t LDFLAGS:  ${LDFLAGS}
+  buildIOS
 else
   echo "Unkown selection: ${1}"
   echo "usage: ./install.sh [platform]"
