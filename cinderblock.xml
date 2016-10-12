@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+<block
+	name="Cinder-Harfbuzz"
+	id="org.libcinder.harfbuzz"
+	author="Cinder Project, Ryan Bartley"
+	summary="HarfBuzz is an OpenType text shaping engine."
+	core="true"
+	>
+	<supports os="msw" />
+	<supports os="macosx" />
+	<supports os="ios" />
+	
+	<requires>org.libcinder.cairo</requires>
+	
+	<platform os="ios">
+		<staticLibrary>lib/ios/libharfbuzz.a</staticLibrary>	
+		<headerPattern>include/ios/harfbuzz/*.h</headerPattern>
+		<includePath system="true">include/ios/harfbuzz</includePath>	
+	</platform>
+	<platform os="macosx">
+		<staticLibrary>lib/macosx/libharfbuzz.a</staticLibrary>	
+		<headerPattern>include/macosx/harfbuzz/*.h</headerPattern>	
+		<includePath system="true">include/macosx/harfbuzz</includePath>
+	</platform>
+	<platform os="msw">
+		<staticLibrary>lib/msw/harfbuzz.lib</staticLibrary>
+		<headerPattern>include/msw/harfbuzz/*.h</headerPattern>
+    <includePath system="true">include/msw/harfbuzz</includePath>	
+	</platform>
+</block>
+</cinder>

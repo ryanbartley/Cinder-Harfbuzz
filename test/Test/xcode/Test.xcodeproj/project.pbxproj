@@ -1,0 +1,493 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		006D720419952D00008149E2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 006D720219952D00008149E2 /* AVFoundation.framework */; };
+		006D720519952D00008149E2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 006D720319952D00008149E2 /* CoreMedia.framework */; };
+		0091D8F90E81B9330029341E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0091D8F80E81B9330029341E /* OpenGL.framework */; };
+		00B784B30FF439BC000DE1D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784AF0FF439BC000DE1D7 /* Accelerate.framework */; };
+		00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */; };
+		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
+		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
+		00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995581B128DF400A5C623 /* IOKit.framework */; };
+		00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B995591B128DF400A5C623 /* IOSurface.framework */; };
+		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
+		5A5FFA0F6B964A4CBB5861C9 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = F809E4B9E1684E3E9482A95E /* CinderApp.icns */; };
+		7C2998CD29AA477A937E3B85 /* TestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 04C82D12A5C549A2B45BE96E /* TestApp.cpp */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F6ED55BDF4964A7CA7C6691E /* Cairo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8DBC585A9839478C8DB7E66A /* Cairo.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0003607492D148299C6B4A11 /* hb-shape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-shape.h"; path = "../../../include/macosx/harfbuzz/hb-shape.h"; sourceTree = "<group>"; };
+		006D720219952D00008149E2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		006D720319952D00008149E2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		0091D8F80E81B9330029341E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		00B784AF0FF439BC000DE1D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		00B995581B128DF400A5C623 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		00B995591B128DF400A5C623 /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
+		04C82D12A5C549A2B45BE96E /* TestApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = TestApp.cpp; path = ../src/TestApp.cpp; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		31936FDDCCE4444CA0FC67E8 /* hb-buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-buffer.h"; path = "../../../include/macosx/harfbuzz/hb-buffer.h"; sourceTree = "<group>"; };
+		40AD52CA0D3A4A319BF82BE8 /* hb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hb.h; path = ../../../include/macosx/harfbuzz/hb.h; sourceTree = "<group>"; };
+		42A24350FFA448F4B13213C0 /* Cairo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Cairo.h; path = ../../../../Cairo/include/cinder/cairo/Cairo.h; sourceTree = "<group>"; };
+		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
+		532F2E97DE6A4298A8BCF659 /* hb-ot-shape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-ot-shape.h"; path = "../../../include/macosx/harfbuzz/hb-ot-shape.h"; sourceTree = "<group>"; };
+		5F756A4CBE9B47AAB4978708 /* hb-version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-version.h"; path = "../../../include/macosx/harfbuzz/hb-version.h"; sourceTree = "<group>"; };
+		7188E9AB02964622BBD33E32 /* hb-shape-plan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-shape-plan.h"; path = "../../../include/macosx/harfbuzz/hb-shape-plan.h"; sourceTree = "<group>"; };
+		769725C6C772485DA053D402 /* hb-blob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-blob.h"; path = "../../../include/macosx/harfbuzz/hb-blob.h"; sourceTree = "<group>"; };
+		84B5647B5E814E45886E6604 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DBC585A9839478C8DB7E66A /* Cairo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Cairo.cpp; path = ../../../../Cairo/src/Cairo.cpp; sourceTree = "<group>"; };
+		9880C4CC93B74702AC8CF0C4 /* hb-ot-layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-ot-layout.h"; path = "../../../include/macosx/harfbuzz/hb-ot-layout.h"; sourceTree = "<group>"; };
+		A1BF72B4FD284DDC8A751ABB /* hb-face.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-face.h"; path = "../../../include/macosx/harfbuzz/hb-face.h"; sourceTree = "<group>"; };
+		A4D6F7B54AF14D808DEE24C8 /* hb-deprecated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-deprecated.h"; path = "../../../include/macosx/harfbuzz/hb-deprecated.h"; sourceTree = "<group>"; };
+		BBA339952C6F4C41977DC5BD /* hb-common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-common.h"; path = "../../../include/macosx/harfbuzz/hb-common.h"; sourceTree = "<group>"; };
+		BDC8A8F031C44A75A6AB9654 /* hb-set.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-set.h"; path = "../../../include/macosx/harfbuzz/hb-set.h"; sourceTree = "<group>"; };
+		C777BCA21BCF42829560E2E6 /* hb-font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-font.h"; path = "../../../include/macosx/harfbuzz/hb-font.h"; sourceTree = "<group>"; };
+		C9E779B3B9E548E6ADCBD57D /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
+		CE7A6ACFAF25425CA45B98A1 /* Test_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = Test_Prefix.pch; sourceTree = "<group>"; };
+		D9220C09EF26487B94632FE2 /* hb-coretext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-coretext.h"; path = "../../../include/macosx/harfbuzz/hb-coretext.h"; sourceTree = "<group>"; };
+		E8CB075C6DAC4A23AE510F0F /* hb-unicode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-unicode.h"; path = "../../../include/macosx/harfbuzz/hb-unicode.h"; sourceTree = "<group>"; };
+		EC2564596569443699799BC5 /* hb-ft.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-ft.h"; path = "../../../include/macosx/harfbuzz/hb-ft.h"; sourceTree = "<group>"; };
+		ED4F66B9B9084A9ABA8ACFD9 /* hb-ot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-ot.h"; path = "../../../include/macosx/harfbuzz/hb-ot.h"; sourceTree = "<group>"; };
+		F809E4B9E1684E3E9482A95E /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
+		FB67C9C740074F1A9EC88B3B /* hb-ot-font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-ot-font.h"; path = "../../../include/macosx/harfbuzz/hb-ot-font.h"; sourceTree = "<group>"; };
+		FEEE20F268604388A70BC617 /* hb-ot-tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hb-ot-tag.h"; path = "../../../include/macosx/harfbuzz/hb-ot-tag.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				006D720419952D00008149E2 /* AVFoundation.framework in Frameworks */,
+				006D720519952D00008149E2 /* CoreMedia.framework in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				0091D8F90E81B9330029341E /* OpenGL.framework in Frameworks */,
+				5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */,
+				00B784B30FF439BC000DE1D7 /* Accelerate.framework in Frameworks */,
+				00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */,
+				00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */,
+				00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */,
+				00B9955A1B128DF400A5C623 /* IOKit.framework in Frameworks */,
+				00B9955B1B128DF400A5C623 /* IOSurface.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01B97315FEAEA392516A2CEA /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				0613290C5EA6400DBF240482 /* Cairo */,
+				08D2E27E2BBE41FCAC478C71 /* Cinder-Harfbuzz */,
+			);
+			name = Blocks;
+			sourceTree = "<group>";
+		};
+		0613290C5EA6400DBF240482 /* Cairo */ = {
+			isa = PBXGroup;
+			children = (
+				5CE7AEDB985E4BA0B53562F3 /* src */,
+				5BAE7E8D093B420E89D2E89F /* include */,
+			);
+			name = Cairo;
+			sourceTree = "<group>";
+		};
+		080E96DDFE201D6D7F000001 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				04C82D12A5C549A2B45BE96E /* TestApp.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		08D2E27E2BBE41FCAC478C71 /* Cinder-Harfbuzz */ = {
+			isa = PBXGroup;
+			children = (
+				515F364D89E54BFEA92BE3B2 /* include */,
+			);
+			name = "Cinder-Harfbuzz";
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				006D720219952D00008149E2 /* AVFoundation.framework */,
+				006D720319952D00008149E2 /* CoreMedia.framework */,
+				00B784AF0FF439BC000DE1D7 /* Accelerate.framework */,
+				00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */,
+				00B784B10FF439BC000DE1D7 /* AudioUnit.framework */,
+				00B784B20FF439BC000DE1D7 /* CoreAudio.framework */,
+				5323E6B10EAFCA74003A9687 /* CoreVideo.framework */,
+				0091D8F80E81B9330029341E /* OpenGL.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				00B995581B128DF400A5C623 /* IOKit.framework */,
+				00B995591B128DF400A5C623 /* IOSurface.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		128AACE3AEAB4E63AAC5709F /* cairo */ = {
+			isa = PBXGroup;
+			children = (
+				42A24350FFA448F4B13213C0 /* Cairo.h */,
+			);
+			name = cairo;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Test.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				01B97315FEAEA392516A2CEA /* Blocks */,
+				29B97315FDCFA39411CA2CEA /* Headers */,
+				080E96DDFE201D6D7F000001 /* Source */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				C9E779B3B9E548E6ADCBD57D /* Resources.h */,
+				CE7A6ACFAF25425CA45B98A1 /* Test_Prefix.pch */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F809E4B9E1684E3E9482A95E /* CinderApp.icns */,
+				84B5647B5E814E45886E6604 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2F03803654914AA889FD0F85 /* macosx */ = {
+			isa = PBXGroup;
+			children = (
+				DC755917F2C843379A5FB872 /* harfbuzz */,
+			);
+			name = macosx;
+			sourceTree = "<group>";
+		};
+		515F364D89E54BFEA92BE3B2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				2F03803654914AA889FD0F85 /* macosx */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		5BAE7E8D093B420E89D2E89F /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B564233B475D4404A8560726 /* cinder */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		5CE7AEDB985E4BA0B53562F3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8DBC585A9839478C8DB7E66A /* Cairo.cpp */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		B564233B475D4404A8560726 /* cinder */ = {
+			isa = PBXGroup;
+			children = (
+				128AACE3AEAB4E63AAC5709F /* cairo */,
+			);
+			name = cinder;
+			sourceTree = "<group>";
+		};
+		DC755917F2C843379A5FB872 /* harfbuzz */ = {
+			isa = PBXGroup;
+			children = (
+				769725C6C772485DA053D402 /* hb-blob.h */,
+				31936FDDCCE4444CA0FC67E8 /* hb-buffer.h */,
+				BBA339952C6F4C41977DC5BD /* hb-common.h */,
+				D9220C09EF26487B94632FE2 /* hb-coretext.h */,
+				A4D6F7B54AF14D808DEE24C8 /* hb-deprecated.h */,
+				A1BF72B4FD284DDC8A751ABB /* hb-face.h */,
+				C777BCA21BCF42829560E2E6 /* hb-font.h */,
+				EC2564596569443699799BC5 /* hb-ft.h */,
+				FB67C9C740074F1A9EC88B3B /* hb-ot-font.h */,
+				9880C4CC93B74702AC8CF0C4 /* hb-ot-layout.h */,
+				532F2E97DE6A4298A8BCF659 /* hb-ot-shape.h */,
+				FEEE20F268604388A70BC617 /* hb-ot-tag.h */,
+				ED4F66B9B9084A9ABA8ACFD9 /* hb-ot.h */,
+				BDC8A8F031C44A75A6AB9654 /* hb-set.h */,
+				7188E9AB02964622BBD33E32 /* hb-shape-plan.h */,
+				0003607492D148299C6B4A11 /* hb-shape.h */,
+				E8CB075C6DAC4A23AE510F0F /* hb-unicode.h */,
+				5F756A4CBE9B47AAB4978708 /* hb-version.h */,
+				40AD52CA0D3A4A319BF82BE8 /* hb.h */,
+			);
+			name = harfbuzz;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Test" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Test;
+			productInstallPath = "$(HOME)/Applications";
+			productName = Test;
+			productReference = 8D1107320486CEB800E47090 /* Test.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Test" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Test */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A5FFA0F6B964A4CBB5861C9 /* CinderApp.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C2998CD29AA477A937E3B85 /* TestApp.cpp in Sources */,
+				F6ED55BDF4964A7CA7C6691E /* Cairo.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Test_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\"",
+					../../../../Cairo/include/macosx/cairo,
+					../../../include/macosx/harfbuzz,
+					"\"$(CINDER_PATH)/include/freetype\"",
+					/usr/local/Cellar/fontconfig/2.12.1_2/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/macosx/$(CONFIGURATION)/libcinder.a\"",
+					../../../../Cairo/lib/macosx/libcairo.a,
+					"\"../../../../Cairo/lib/macosx/libpixman-1.a\"",
+					../../../../Cairo/lib/macosx/libpng16.a,
+					../../../lib/macosx/libharfbuzz.a,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Test;
+				SYMROOT = ./build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_FAST_MATH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Test_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NDEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\"",
+					../../../../Cairo/include/macosx/cairo,
+					../../../include/macosx/harfbuzz,
+					"\"$(CINDER_PATH)/include/freetype\"",
+					/usr/local/Cellar/fontconfig/2.12.1_2/include,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/macosx/$(CONFIGURATION)/libcinder.a\"",
+					../../../../Cairo/lib/macosx/libcairo.a,
+					"\"../../../../Cairo/lib/macosx/libpixman-1.a\"",
+					../../../../Cairo/lib/macosx/libpng16.a,
+					../../../lib/macosx/libharfbuzz.a,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Test;
+				STRIP_INSTALLED_PRODUCT = YES;
+				SYMROOT = ./build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CINDER_PATH = ../../../../..;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				ENABLE_TESTABILITY = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\"",
+					../../../../Cairo/include/macosx/cairo,
+					../../../include/macosx/harfbuzz,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../../Cairo/include";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CINDER_PATH = ../../../../..;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++11";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(CINDER_PATH)/include\"",
+					../../../../Cairo/include/macosx/cairo,
+					../../../include/macosx/harfbuzz,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../../Cairo/include";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
