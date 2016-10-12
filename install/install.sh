@@ -11,10 +11,11 @@ WITH_PANGO=false
 if [ -z $2 ]; then
   echo Building without Glib functionality.
 else
-  if [ -z "${GLIB_LIBS:?false}"]; then
+  if [ -z "${GLIB_LIBS:?false}" ]; then
     echo "Chose with-pango but GLIB flags not present. Use Cinder-Pango to get Glib in the correct place. Exiting!"
     exit
   fi
+  echo "Configured to run with Pango"
   WITH_PANGO=true
 fi
 
@@ -51,11 +52,18 @@ CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/freetype
 #########################
 
 FINAL_PATH=`pwd`/..
-FINAL_LIB_PATH=${FINAL_PATH}/lib/${lower_case}
+LIB_DIR=lib
+INCLUDE_DIR=include
+if [ $WITH_PANGO = true ]; then
+  LIB_DIR=lib_p
+  INCLUDE_DIR=include_p
+fi
+
+FINAL_LIB_PATH=${FINAL_PATH}/${LIB_DIR}/${lower_case}
 rm -rf ${FINAL_LIB_PATH}
 mkdir -p ${FINAL_LIB_PATH}
  
-FINAL_INCLUDE_PATH=${FINAL_PATH}/include/${lower_case}
+FINAL_INCLUDE_PATH=${FINAL_PATH}/${INCLUDE_DIR}/${lower_case}
 rm -rf ${FINAL_INCLUDE_PATH}
 mkdir -p ${FINAL_INCLUDE_PATH}
 

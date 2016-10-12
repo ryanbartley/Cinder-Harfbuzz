@@ -66,6 +66,8 @@ cinderConfig.cmake
 tmp/
 include/
 lib/
+include_p/
+lib_p/
 
 # CinderBlocks
 #blocks/
