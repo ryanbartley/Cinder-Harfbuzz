@@ -17,16 +17,14 @@ using namespace std;
 class TestApp : public App {
   public:
 	void setup() override;
-	void mouseDown( MouseEvent event ) override;
-	void update() override;
-	void draw() override;
 };
 
 void TestApp::setup()
 {
 	auto fontPath = (getAssetDirectories()[0] / "Roboto-Regular.ttf");
 	const char *text = "Hello, world!";
-	
+  auto outPath = (getAssetDirectories()[0] / "helloworld.png");
+
 	/* Initialize FreeType and create FreeType font face. */
 	FT_Library ft_library;
 	FT_Face ft_face;
@@ -157,7 +155,7 @@ void TestApp::setup()
 	cairo_show_glyphs (cr, cairo_glyphs, len);
 	cairo_glyph_free (cairo_glyphs);
 	
-	cairo_surface_write_to_png (cairo_surface, "out.png");
+	cairo_surface_write_to_png (cairo_surface, outPath.c_str());
 	
 	cairo_font_face_destroy (cairo_face);
 	cairo_destroy (cr);
@@ -168,19 +166,7 @@ void TestApp::setup()
 	
 	FT_Done_Face (ft_face);
 	FT_Done_FreeType (ft_library);
-}
-
-void TestApp::mouseDown( MouseEvent event )
-{
-}
-
-void TestApp::update()
-{
-}
-
-void TestApp::draw()
-{
-	gl::clear( Color( 0, 0, 0 ) );
+  quit();
 }
 
 CINDER_APP( TestApp, RendererGl )
