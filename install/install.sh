@@ -39,14 +39,6 @@ CAIRO_INCLUDE_PATH="${CAIRO_BASE_DIR}/include/${lower_case}/cairo"
 # make sure it's the correct version
 echo "Setting up cairo flags..."
 
-#############################
-## cinder paths for freetype
-#############################
-
-CINDER_DIR=`pwd`/../../..
-CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
-CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/freetype
-
 #########################
 ## create final path
 #########################
@@ -74,15 +66,15 @@ mkdir -p ${FINAL_INCLUDE_PATH}
 buildIOS() 
 {
   echo Building IOS...
-  buildHarfbuzz "${HOST}" "--with-coretext=yes --with-glib=no --with-gobject=no"
+  buildHarfbuzz "${HOST}" "--with-coretext=yes --with-glib=no --with-gobject=no --with-fontconfig=no"
 }
 
 buildOSX() 
 {
   echo Building OSX...
-  OPTIONS="--with-coretext=yes --with-glib=no --with-gobject=no"
+  OPTIONS="--with-coretext=yes --with-glib=no --with-gobject=no --with-fontconfig=no"
   if [ $WITH_PANGO = true ]; then
-    OPTIONS="--with-coretext=yes --with-glib=yes --with-gobject=yes"
+    OPTIONS="--with-coretext=yes --with-glib=yes --with-gobject=yes --with-fontconfig=yes"
   fi
   buildHarfbuzz "" "${OPTIONS}"
 }
@@ -90,9 +82,9 @@ buildOSX()
 buildLinux() 
 {
   echo Building Linux...
-  OPTIONS="--with-glib=no --with-gobject=no"
+  OPTIONS="--with-glib=no --with-gobject=no --with-fontconfig=yes"
   if [ $WITH_PANGO = true ]; then
-    OPTIONS="--with-glib=yes --with-gobject=yes"
+    OPTIONS="--with-glib=yes --with-gobject=yes --with-fontconfig=yes"
   fi
   buildHarfbuzz "" "${OPTIONS}"
 }
@@ -132,10 +124,10 @@ buildHarfbuzz()
   echo "Passed in $HOST"
 
   if [ -z "$HOST" ]; then
-    ./configure --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-gobject=yes --with-cairo=yes --with-fontconfig=yes --with-freetype=yes ${OPTIONS}
+    ./configure --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-cairo=yes --with-freetype=yes ${OPTIONS}
   else
     echo Building with cross-compile    
-    ./configure --host=${HOST} --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-cairo=yes --with-fontconfig=yes --with-freetype=yes ${OPTIONS} 
+    ./configure --host=${HOST} --disable-shared --enable-static=yes --prefix=${PREFIX} --enable-gtk-doc-html=no --with-cairo=yes --with-freetype=yes ${OPTIONS} 
   fi
 
   make -j 6
@@ -173,8 +165,6 @@ downloadHarfbuzz
 declare -a config_settings=("debug" "release")
 declare -a config_paths=("/Debug" "/Release")
 
-export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
-export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}"
 export CAIRO_CFLAGS="-I${CAIRO_INCLUDE_PATH}"
 export CAIRO_LIBS="-L${CAIRO_LIB_PATH} -lcairo"
 
@@ -189,7 +179,23 @@ then
 	export CFLAGS="-O3 -pthread -I${PREFIX_GETTEXT}/include ${CFLAGS}"
 	export CXXFLAGS="-O3 -pthread ${CXXFLAGS}"
 	export LDFLAGS="-stdlib=libc++ -framework AppKit -framework CoreText -framework CoreFoundation -framework CoreGraphics  -framework Carbon -L/usr/local/lib ${LDFLAGS}"
-	
+
+  ##################################
+  ## we use cinder to link freetype
+  ##################################
+
+  CINDER_DIR=`pwd`/../../../..
+  CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
+  CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/
+
+  if [ ! -f "${CINDER_LIB_DIR}/libcinder.a" ]; then
+    echo "Need to build release version of cinder to run this install. Cairo needs Freetype. Exiting!"
+    exit
+  fi
+
+  export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
+  export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}/freetype -I${CINDER_FREETYPE_INCLUDE_PATH}"
+
   echoFlags
 	buildOSX
 elif [ "${lower_case}" = "linux" ];
@@ -201,7 +207,23 @@ then
 	export CFLAGS="-O3 -pthread -I${PREFIX_GETTEXT}/include ${CFLAGS}"
   export CPPFLAGS="${CPPFLAGS} -I${PREFIX_GETTEXT}/include"
 	export CXXFLAGS="-O3 -pthread ${CXXFLAGS}"
- 
+
+  ##################################
+  ## we use cinder to link freetype
+  ##################################
+
+  CINDER_DIR=`pwd`/../../../..
+  CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/x86_64/ogl/Release
+  CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/
+
+  if [ ! -f "${CINDER_LIB_DIR}/libcinder.a" ]; then
+    echo "Need to build release version of cinder to run this install. Cairo needs Freetype. Exiting!"
+    exit
+  fi
+
+  export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
+  export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}/freetype -I${CINDER_FREETYPE_INCLUDE_PATH}"
+
   echoFlags 
 	buildLinux
 elif [ "${lower_case}" = "ios" ];
@@ -225,7 +247,23 @@ then
   
   export LDFLAGS="-stdlib=libc++ -isysroot ${IOS_SDK} -L${FINAL_LIB_PATH} -L${IOS_SDK}/usr/lib -arch ${ARCH} -mios-version-min=8.0 -framework CoreText -framework CoreFoundation -framework CoreGraphics  ${LDFLAGS}"
   export PNG_LIBS="-L${IOS_SDK}/usr/lib ${PNG_LIBS}"
-  
+
+  ##################################
+  ## we use cinder to link freetype
+  ##################################
+
+  CINDER_DIR=`pwd`/../../../..
+  CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
+  CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/
+ 
+  if [ ! -f "${CINDER_LIB_DIR}/libcinder.a" ]; then
+    echo "Need to build release version of cinder to run this install. Cairo needs Freetype. Exiting!"
+    exit
+  fi
+ 
+  export FREETYPE_LIBS="-L${CINDER_LIB_DIR} -lcinder"
+  export FREETYPE_CFLAGS="-I${CINDER_FREETYPE_INCLUDE_PATH}/freetype -I${CINDER_FREETYPE_INCLUDE_PATH}"
+
   echoFlags
   buildIOS
 else
