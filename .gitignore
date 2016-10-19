@@ -68,6 +68,7 @@ include/
 lib/
 include_p/
 lib_p/
+helloworld.png
 
 # CinderBlocks
 #blocks/
