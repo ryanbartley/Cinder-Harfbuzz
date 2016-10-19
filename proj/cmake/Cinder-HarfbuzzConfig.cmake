@@ -14,6 +14,6 @@ if( NOT TARGET Cinder-Harfbuzz )
 	
   get_filename_component( HARFBUZZ_LIBS_PATH "${BLOCK_PATH}/lib/${CINDER_TARGET_LOWER}" ABSOLUTE )
   set( Cinder-Harfbuzz_LIBRARIES ${HARFBUZZ_LIBS_PATH}/libharfbuzz.a )
-  set( Cinder-Harfbuzz_INCLUDES ${BLOCK_PATH}/include/${CINDER_TARGET_LOWER}/harfbuzz )
+	set( Cinder-Harfbuzz_INCLUDES ${BLOCK_PATH}/include/${CINDER_TARGET_LOWER}/harfbuzz ${CINDER_PATH}/include/freetype )
 
 endif()
