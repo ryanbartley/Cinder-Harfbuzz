@@ -33,9 +33,15 @@ mkdir -p ${PREFIX_HARFBUZZ}
 ## gather cairo libs
 #########################
 
-CAIRO_BASE_DIR="../../Cairo"
-CAIRO_LIB_PATH="${CAIRO_BASE_DIR}/lib/${lower_case}"
-CAIRO_INCLUDE_PATH="${CAIRO_BASE_DIR}/include/${lower_case}/cairo"
+CAIRO_BASE_DIR=`pwd`/../../Cairo
+if [ $WITH_PANGO = true ]; then
+  TEMP_PANGO=`pwd`/../../Cinder-Pango
+  CAIRO_LIB_PATH="${TEMP_PANGO}/lib/${lower_case}"
+  CAIRO_INCLUDE_PATH="${TEMP_PANGO}/include/${lower_case}/cairo"
+else
+  CAIRO_LIB_PATH="${CAIRO_BASE_DIR}/lib/${lower_case}"
+  CAIRO_INCLUDE_PATH="${CAIRO_BASE_DIR}/include/${lower_case}/cairo"
+fi
 # make sure it's the correct version
 echo "Setting up cairo flags..."
 
@@ -47,17 +53,20 @@ FINAL_PATH=`pwd`/..
 LIB_DIR=lib
 INCLUDE_DIR=include
 if [ $WITH_PANGO = true ]; then
-  LIB_DIR=lib_p
-  INCLUDE_DIR=include_p
+  FINAL_PATH=`pwd`/../../Cinder-Pango
 fi
 
 FINAL_LIB_PATH=${FINAL_PATH}/${LIB_DIR}/${lower_case}
-rm -rf ${FINAL_LIB_PATH}
-mkdir -p ${FINAL_LIB_PATH}
+if [ $WITH_PANGO = false ]; then
+  rm -rf ${FINAL_LIB_PATH}
+  mkdir -p ${FINAL_LIB_PATH}
+fi
  
 FINAL_INCLUDE_PATH=${FINAL_PATH}/${INCLUDE_DIR}/${lower_case}
-rm -rf ${FINAL_INCLUDE_PATH}
-mkdir -p ${FINAL_INCLUDE_PATH}
+if [ $WITH_PANGO = false ]; then
+  rm -rf ${FINAL_INCLUDE_PATH}
+  mkdir -p ${FINAL_INCLUDE_PATH}
+fi
 
 #########################
 ## different archs
