@@ -19,6 +19,15 @@ else
   WITH_PANGO=true
 fi
 
+CINDER_ROOT_DIR=""
+if [ -z $3 ]; then
+	CINDER_ROOT_DIR=`pwd`/../../../..
+	echo Building with normal cinder dir...${CINDER_ROOT_DIR}.
+else
+	CINDER_ROOT_DIR=${2}
+	echo Building with user specified cinder dir...${CINDER_ROOT_DIR}.
+fi
+
 #########################
 ## create prefix dirs
 #########################
@@ -33,7 +42,7 @@ mkdir -p ${PREFIX_HARFBUZZ}
 ## gather cairo libs
 #########################
 
-CAIRO_BASE_DIR=`pwd`/../../Cairo
+CAIRO_BASE_DIR=${CINDER_ROOT_DIR}/blocks/Cairo
 if [ $WITH_PANGO = true ]; then
   TEMP_PANGO=`pwd`/../../Cinder-Pango
   CAIRO_LIB_PATH="${TEMP_PANGO}/lib/${lower_case}"
@@ -193,7 +202,7 @@ then
   ## we use cinder to link freetype
   ##################################
 
-  CINDER_DIR=`pwd`/../../../..
+  CINDER_DIR=${CINDER_ROOT_DIR}
   CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
   CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/
 
@@ -221,7 +230,7 @@ then
   ## we use cinder to link freetype
   ##################################
 
-  CINDER_DIR=`pwd`/../../../..
+  CINDER_DIR=${CINDER_ROOT_DIR}
   CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/x86_64/ogl/Release
   CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/
 
@@ -261,7 +270,7 @@ then
   ## we use cinder to link freetype
   ##################################
 
-  CINDER_DIR=`pwd`/../../../..
+  CINDER_DIR=${CINDER_ROOT_DIR}
   CINDER_LIB_DIR=${CINDER_DIR}/lib/${lower_case}/Release
   CINDER_FREETYPE_INCLUDE_PATH=${CINDER_DIR}/include/
  
