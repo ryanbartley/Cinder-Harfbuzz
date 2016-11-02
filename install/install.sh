@@ -24,7 +24,7 @@ if [ -z $3 ]; then
 	CINDER_ROOT_DIR=`pwd`/../../../..
 	echo Building with normal cinder dir...${CINDER_ROOT_DIR}.
 else
-	CINDER_ROOT_DIR=${2}
+	CINDER_ROOT_DIR=${3}
 	echo Building with user specified cinder dir...${CINDER_ROOT_DIR}.
 fi
 
